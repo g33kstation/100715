@@ -18,4 +18,4 @@ Récupérer les valeurs d'un formulaire
 Integrer le router github.com/julienschmidt/httprouter/
 
 @TODO: (Thomas)
-Mettre de jolies couleurs :)
+Creer un formulaire dont Martial va récuperer les valeurs pour les filer à Patrick
