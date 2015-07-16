@@ -9,7 +9,7 @@ import (
 	"os" // os operations
 )
 
-func boing(){
+func createTable(){
 	// remove db file if exists
 	os.Remove("./test.db")
 
@@ -36,7 +36,7 @@ func boing(){
 func homepage(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	fmt.Fprint(w, "Helo")
-	boing()
+	createTable()
 }
 
 func main() {
