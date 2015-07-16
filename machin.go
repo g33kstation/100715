@@ -10,7 +10,6 @@ import (
 )
 
 func boing(){
-	fmt.Println("boing")
 	// remove db file if exists
 	os.Remove("./test.db")
 
