@@ -22,6 +22,7 @@ func createTable(){
 	// ensure db is closed
 	defer db.Close()
 
+
 	sqlStmt := `
 	create table if not exists person (id integer not null primary key, name text);
 	`
@@ -33,10 +34,61 @@ func createTable(){
 	}
 }
 
+
+func insertPerson(){
+	// get connection to db
+	db, err := sql.Open("sqlite3", "./test.db")
+	// log error if any
+	if err != nil {
+		log.Fatal(err)
+	}
+	// ensure db is closed
+	defer db.Close()
+
+	// check if db alive
+	err = db.Ping()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// simple datas insertion
+	_, err = db.Exec("insert into person(id, name) values(1, 'foo'), (2, 'bar'), (3, 'baz')")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// transaction based data insertion
+
+	// prepare a transaction object
+	tx, err := db.Begin()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// prepare the statement
+	stmt, err := tx.Prepare("insert into person(id, name) values(?, ?)")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer stmt.Close()
+
+	// for loop insertion
+	for k, v := range map[int]string{5:"pif", 6:"pof", 7:"paf"}{
+		_, err = stmt.Exec(k, fmt.Sprintf(v))
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	// commit transaction
+	tx.Commit()
+
+}
+
 func homepage(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprint(w, "Helo")
 	createTable()
+	insertPerson()
+	fmt.Fprint(w, "Helo")
 }
 
 func main() {
