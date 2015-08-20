@@ -4,8 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log" // logging operations
-	"net/http"
-	"os" // os operations
+	"os"  // os operations
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -90,14 +89,6 @@ func insertPerson() {
 
 }
 
-func homepage(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	createTable()
-	insertPerson()
-	fmt.Fprint(w, "Helo")
-}
-
 func main() {
-	http.HandleFunc("/", homepage)
-	http.ListenAndServe(":4400", nil)
+	RunServer()
 }
