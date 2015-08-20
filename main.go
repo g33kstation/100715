@@ -1,17 +1,25 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
 	"database/sql"
-	_ "github.com/mattn/go-sqlite3"
+	"fmt"
 	"log" // logging operations
+	"net/http"
 	"os" // os operations
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
-func createTable(){
-	// remove db file if exists
-	os.Remove("./test.db")
+// La fonction init() est toujours appelé avant la fonction main()
+// Idéal pour toutes les actions "pré-exécution" du programme
+func init() {
+	// Si une BDD existe, on la supprime avant de commencer
+	if x, _ := os.Lstat("./test.db"); x != nil {
+		os.Remove("./test.db")
+	}
+}
+
+func createTable() {
 
 	// get connection to db
 	db, err := sql.Open("sqlite3", "./test.db")
@@ -21,7 +29,6 @@ func createTable(){
 	}
 	// ensure db is closed
 	defer db.Close()
-
 
 	sqlStmt := `
 	create table if not exists person (id integer not null primary key, name text);
@@ -34,8 +41,7 @@ func createTable(){
 	}
 }
 
-
-func insertPerson(){
+func insertPerson() {
 	// get connection to db
 	db, err := sql.Open("sqlite3", "./test.db")
 	// log error if any
@@ -73,7 +79,7 @@ func insertPerson(){
 	defer stmt.Close()
 
 	// for loop insertion
-	for k, v := range map[int]string{5:"pif", 6:"pof", 7:"paf"}{
+	for k, v := range map[int]string{5: "pif", 6: "pof", 7: "paf"} {
 		_, err = stmt.Exec(k, fmt.Sprintf(v))
 		if err != nil {
 			log.Fatal(err)
