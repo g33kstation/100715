@@ -37,7 +37,7 @@ func runServer() {
 func homepage(w http.ResponseWriter, r *http.Request) {
 	tmpl["index"] = template.Must(template.ParseFiles("tpl/layout.html", "tpl/index.html"))
 
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	//w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	//createTable()
 	//insertPerson()
 	if err := tmpl["index"].Execute(w, patt); err != nil {
