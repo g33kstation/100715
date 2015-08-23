@@ -10,7 +10,12 @@ import (
 )
 
 // La fonction init() est toujours appelé avant la fonction main()
-// Idéal pour toutes les actions "pré-exécution" du programme
+//
+// La différence avec `main` est qu'il ne peut exister qu'UNE fonction `main`,
+// Mais qu'on peut mettre autant de function `init` qu'on veut ;)
+//
+// Utilisé idéalement pour toutes les actions à "pré-exécuter"
+// avant le démarrage de notre programme
 func init() {
 	// Si une BDD existe, on la supprime avant de commencer
 	if x, _ := os.Lstat("./test.db"); x != nil {
@@ -90,5 +95,5 @@ func insertPerson() {
 }
 
 func main() {
-	RunServer()
+	runServer()
 }
